@@ -1,38 +1,51 @@
-const CACHE = 'impressoras-hgp-v2'; // <--- SEMPRE mude essa versão (v1, v2, v3...) quando alterar o HTML
+const CACHE = 'impressoras-hgp-v2'; // <--- Toda vez que editar o HTML, mude para v3, v4, etc.
 const ASSETS = [
   './',
   './index.html',
   './manifest.json'
 ];
 
-// Instalação: Salva os arquivos no cache
+// 1. Instalação: Salva os arquivos essenciais no cache inicial
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(ASSETS))
+    caches.open(CACHE).then(c => {
+      console.log('SW: Instalando novo cache');
+      return c.addAll(ASSETS);
+    })
   );
-  self.skipWaiting(); // Força o novo SW a ativar imediatamente
+  self.skipWaiting(); // Força o novo Service Worker a assumir o controle imediatamente
 });
 
-// Ativação: Limpa caches antigos
+// 2. Ativação: Remove versões antigas do cache para não ocupar espaço
 self.addEventListener('activate', e => {
   e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    )
+    caches.keys().then(keys => {
+      return Promise.all(
+        keys.filter(k => k !== CACHE).map(k => {
+          console.log('SW: Removendo cache antigo:', k);
+          return caches.delete(k);
+        })
+      );
+    })
   );
-  self.clients.claim();
+  self.clients.claim(); // Faz o SW controlar a página atual imediatamente
 });
 
-// ESTRATÉGIA MELHORADA: Network First (Tenta rede, se falhar usa cache)
+// 3. Estratégia Network First: Tenta a rede, se falhar (offline), usa o cache
 self.addEventListener('fetch', e => {
   e.respondWith(
     fetch(e.request)
       .then(response => {
-        // Se a rede responder, atualiza o cache com a cópia nova
+        // Se a busca na rede deu certo, atualiza o cache com a nova cópia
         const resClone = response.clone();
-        caches.open(CACHE).then(cache => cache.put(e.request, resClone));
+        caches.open(CACHE).then(cache => {
+          cache.put(e.request, resClone);
+        });
         return response;
       })
-      .catch(() => caches.match(e.request)) // Se estiver offline, usa o cache
+      .catch(() => {
+        // Se a rede falhar (ex: sem sinal), busca no cache
+        return caches.match(e.request);
+      })
   );
 });
