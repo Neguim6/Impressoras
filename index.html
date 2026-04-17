@@ -370,7 +370,7 @@
             {"Nome da Impressora":"ISESTC1173","Comentários":"10.75.23.111","Local":"SES - HGP - Internação Pediátrica","Nome do Driver":"Brother DCP-L5652DN Printer"},
             {"Nome da Impressora":"ISESTC1174","Comentários":"10.75.23.208","Local":"SES - HGP - Hemodinamica","Nome do Driver":"Brother MFC-L5802DW Printer"},
             {"Nome da Impressora":"ISESTC1175","Comentários":"10.75.23.246","Local":"SES - HGP - PS Farmácia","Nome do Driver":"Brother MFC-L5802DW Printer"},
-            {"Nome da Impressora":"ISESTC1176","Comentários":"10.75.23.128","Local":"SES - HGP - Escriturário PS","Nome do Driver":"Brother DCP-L5652DN Printer"}
+            {"Nome da Impressora":"ISESTC1176","Comentários":"10.75.23.128","Local":"SES - HGP - Escriturário PS","Nome do Driver":"Brother DCP-L5652DN Printer"},
             {"Nome da Impressora":"teste","Comentários":"10.75.23.001","Local":"SES - HGP - CPDteste","Nome do Driver":"Brother DCP-L5652DN Printer"}
         ];
 
@@ -391,12 +391,7 @@
 
             resultCount.innerHTML = `Exibindo <strong>${filtered.length}</strong> impressoras`;
 
-            // Desktop Table
-            let tableHtml = `<table><thead><tr>
-                <th>Nome</th><th>Endereço IP</th><th>Localização</th><th>Driver</th>
-            </tr></thead><tbody>`;
-            
-            // Mobile Cards
+            let tableHtml = `<table><thead><tr><th>Nome</th><th>Endereço IP</th><th>Localização</th><th>Driver</th></tr></thead><tbody>`;
             let cardsHtml = '';
 
             filtered.forEach(p => {
@@ -425,12 +420,12 @@
             });
 
             tableHtml += '</tbody></table>';
-            tableWrap.innerHTML = filtered.length ? tableHtml : '<div class="empty-state"><p>Nenhuma impressora encontrada.</p></div>';
-            cardList.innerHTML = filtered.length ? cardsHtml : '<div class="empty-state"><p>Nenhuma impressora encontrada.</p></div>';
+            tableWrap.innerHTML = filtered.length ? tableHtml : '<p style="padding:20px">Nenhuma impressora encontrada.</p>';
+            cardList.innerHTML = filtered.length ? cardsHtml : '<p style="padding:20px">Nenhuma impressora encontrada.</p>';
         }
 
         searchInput.addEventListener('input', e => render(e.target.value));
-        render(); // Initial load
+        render(); 
     </script>
 </body>
 </html>
