@@ -1,4 +1,4 @@
-const CACHE = 'impressoras-hgp-v4'; // <--- Toda vez que editar o HTML, mude para v3, v4, etc.
+const CACHE = 'impressoras-hgp-v5'; // <--- Toda vez que editar o HTML, mude para v3, v4, etc.
 const ASSETS = [
   './',
   './index.html',
