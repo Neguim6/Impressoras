@@ -1,135 +1,117 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<title>Inventário de Impressoras HGP</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventário HGP - Dark</title>
+    <style>
+        /* Estilos Dark Mode */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #121212;
+            color: #e0e0e0;
+        }
 
-<style>
+        h2 {
+            text-align: center;
+            color: #bb86fc;
+            margin-bottom: 20px;
+        }
 
-body{
-font-family:Segoe UI;
-background:#0f0f11;
-color:#e5e5e5;
-margin:0;
-padding:30px;
-}
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background-color: #1e1e1e;
+            color: #fff;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+        }
 
-.container{
-max-width:1500px;
-margin:auto;
-}
+        .search-box:focus {
+            border-color: #bb86fc;
+        }
 
-h1{
-text-align:center;
-color:#8b5cf6;
-}
+        /* Container com Scroll para aguentar as 142 linhas */
+        .table-container {
+            max-height: 75vh;
+            overflow-y: auto;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background-color: #1e1e1e;
+        }
 
-.stats{
-text-align:center;
-font-size:18px;
-margin-bottom:20px;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-.search{
-width:100%;
-padding:14px;
-border-radius:8px;
-border:1px solid #333;
-background:#1b1b1d;
-color:white;
-font-size:16px;
-margin-bottom:20px;
-}
+        thead th {
+            position: sticky;
+            top: 0;
+            background-color: #2c2c2c;
+            color: #bb86fc;
+            padding: 15px;
+            text-align: left;
+            z-index: 10;
+            border-bottom: 2px solid #333;
+        }
 
-.table-container{
-background:#161618;
-border-radius:10px;
-overflow:auto;
-max-height:75vh;
-}
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #222;
+            font-size: 13px;
+            color: #b0b0b0;
+        }
 
-table{
-width:100%;
-border-collapse:collapse;
-}
+        tr:hover {
+            background-color: #252525;
+        }
 
-thead{
-background:#1f1f22;
-}
+        .highlight {
+            color: #03dac6;
+            font-weight: bold;
+        }
 
-th{
-padding:14px;
-text-align:left;
-color:#8b5cf6;
-position:sticky;
-top:0;
-}
-
-td{
-padding:12px;
-border-bottom:1px solid #252525;
-}
-
-tr:hover{
-background:#202024;
-}
-
-.printer{
-font-weight:bold;
-color:white;
-}
-
-.ip{
-font-family:monospace;
-color:#60a5fa;
-}
-
-</style>
-
+        /* Barra de rolagem personalizada */
+        .table-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .table-container::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="container">
+    <h2>Inventário de Impressoras HGP</h2>
 
-<h1>Inventário de Impressoras - HGP</h1>
+    <input type="text" id="searchInput" class="search-box" placeholder="🔍 Buscar por nome, IP ou local..." onkeyup="filterTable()">
 
-<div class="stats">
-Total de Impressoras: <b id="count"></b>
-</div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>IP</th>
+                    <th>Local</th>
+                    <th>Driver (Modelo)</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                </tbody>
+        </table>
+    </div>
 
-<input
-type="text"
-id="search"
-class="search"
-placeholder="🔎 Pesquisar por nome, IP ou setor..."
-onkeyup="filter()"
-/>
-
-<div class="table-container">
-
-<table>
-
-<thead>
-<tr>
-<th>Nome</th>
-<th>IP</th>
-<th>Local</th>
-<th>Driver</th>
-</tr>
-</thead>
-
-<tbody id="tableBody"></tbody>
-
-</table>
-
-</div>
-
-</div>
-
-<script>
-
-const printerData = [
+    <script>
+        // Array com as 142 impressoras fornecidas
+        const printerData = [
             {"Nome":"ISESTC0081","IP":"10.75.23.138","Local":"SES - HGP - Hemocentro Ambulatório","Driver":"Brother DCP-L5652DN Printer"},
             {"Nome":"ISESTC0087","IP":"10.75.23.249","Local":"SES - HGP - Jurídico","Driver":"Brother DCP-L5652DN Printer"},
             {"Nome":"ISESTC0096","IP":"10.75.23.197","Local":"SES - HGP - Faturamento SIA","Driver":"Brother HL-L5202DW Printer"},
@@ -274,45 +256,43 @@ const printerData = [
             {"Nome":"ISESTC1231","IP":"10.75.23.113","Local":"SES - HGP - Nutrição Clínica","Driver":"Brother HL-16402DW Printer"}
         ];
 
-function render(data){
+        // Função para desenhar a tabela
+        function renderTable(data) {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
+            data.forEach(item => {
+                const row = `<tr>
+                    <td class="highlight">${item.Nome}</td>
+                    <td>${item.IP}</td>
+                    <td>${item.Local}</td>
+                    <td>${item.Driver}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
 
-const body=document.getElementById("tableBody");
-body.innerHTML="";
+        // Função de busca
+        function filterTable() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filteredData = printerData.filter(item => 
+                item.Nome.toLowerCase().includes(query) || 
+                item.IP.toLowerCase().includes(query) || 
+                item.Local.toLowerCase().includes(query)
+            );
+            renderTable(filteredData);
+        }
 
-data.forEach(p=>{
+        // Registro do Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('SW registrado!', reg))
+                .catch(err => console.log('Erro no SW:', err));
+            });
+        }
 
-body.innerHTML+=`
-<tr>
-<td class="printer">${p.nome}</td>
-<td class="ip">${p.ip}</td>
-<td>${p.local}</td>
-<td>${p.driver}</td>
-</tr>
-`;
-
-});
-
-document.getElementById("count").innerText=data.length;
-
-}
-
-function filter(){
-
-const q=document.getElementById("search").value.toLowerCase();
-
-const filtered=printers.filter(p=>
-p.nome.toLowerCase().includes(q)||
-p.ip.includes(q)||
-p.local.toLowerCase().includes(q)
-);
-
-render(filtered);
-
-}
-
-render(printers);
-
-</script>
-
+        // Inicializa a tabela ao carregar
+        renderTable(printerData);
+    </script>
 </body>
 </html>
