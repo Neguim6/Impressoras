@@ -3,55 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Impressoras HGP</title>
+    <title>Inventário de Impressoras - Dark Mode</title>
     <style>
+        /* Estilos Gerais - Modo Escuro */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 20px;
-            background-color: #f4f4f9;
+            background-color: #121212; /* Fundo escuro */
+            color: #e0e0e0; /* Texto claro */
         }
+
         h2 {
             text-align: center;
-            color: #333;
+            color: #bb86fc; /* Roxo suave para destaque */
+            margin-bottom: 20px;
         }
+
+        /* Campo de Pesquisa */
+        .search-box {
+            margin-bottom: 15px;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            background-color: #1e1e1e;
+            color: #fff;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: #bb86fc;
+            box-shadow: 0 0 5px rgba(187, 134, 252, 0.5);
+        }
+
+        /* Container da Tabela com Scroll */
         .table-container {
-            max-height: 600px; /* Altura máxima da tabela */
-            overflow-y: auto;  /* Habilita o scroll vertical */
-            border: 1px solid #ccc;
+            max-height: 70vh;
+            overflow-y: auto;
+            border: 1px solid #333;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: #1e1e1e;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            background-color: #fff;
         }
+
         /* Cabeçalho Fixo */
         thead th {
             position: sticky;
             top: 0;
-            background-color: #007bff;
-            color: white;
+            background-color: #2c2c2c;
+            color: #bb86fc;
             z-index: 10;
-            padding: 12px;
+            padding: 15px;
             text-align: left;
-            border-bottom: 2px solid #0056b3;
+            border-bottom: 2px solid #333;
+            font-weight: 600;
         }
+
+        /* Células da Tabela */
         td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
+            padding: 12px;
+            border-bottom: 1px solid #2c2c2c;
             font-size: 14px;
+            color: #b0b0b0;
         }
+
+        /* Efeito de Hover nas linhas */
         tr:hover {
-            background-color: #f1f1f1;
+            background-color: #252525;
         }
-        .search-box {
-            margin-bottom: 15px;
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
+
+        /* Estilização da Barra de Scroll */
+        .table-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .table-container::-webkit-scrollbar-track {
+            background: #121212;
+        }
+        .table-container::-webkit-scrollbar-thumb {
+            background: #333;
             border-radius: 4px;
-            box-sizing: border-box;
+        }
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: #444;
         }
     </style>
 </head>
@@ -59,7 +98,7 @@
 
     <h2>Inventário de Impressoras - HGP</h2>
 
-    <input type="text" id="searchInput" class="search-box" placeholder="Pesquisar por nome, IP ou local..." onkeyup="filterTable()">
+    <input type="text" id="searchInput" class="search-box" placeholder="🔍 Pesquisar por nome, IP ou local..." onkeyup="filterTable()">
 
     <div class="table-container">
         <table id="printerTable">
@@ -152,73 +191,23 @@
             {"Nome":"ISESTC0902","IP":"10.75.23.112","Local":"SES - HGP - Almoxarifado","Driver":"Brother HL-5350DN series"},
             {"Nome":"ISESTC0905","IP":"10.75.23.167","Local":"SES - HGP - HIP Pediatria","Driver":"Brother DCP-L5652DN Printer"},
             {"Nome":"ISESTC0907","IP":"10.75.23.211","Local":"SES - HGP - Onco Consultório 7","Driver":"Brother HL-5350DN series"},
-            {"Nome":"ISESTC0913","IP":"10.75.23.184","Local":"SES - HGP - Coordenação de Enfermagem PS Adulto","Driver":"Brother HL-L5202DW Printer"},
+            {"Nome":"ISESTC0913","IP":"10.75.23.184","Local":"SES - HGP - Coordenação PS Adulto","Driver":"Brother HL-L5202DW Printer"},
             {"Nome":"ISESTC0916","IP":"10.75.23.113","Local":"SES - HGP - Onco Consultório 8","Driver":"Brother HL-5470DW series"},
             {"Nome":"ISESTC0940","IP":"10.75.23.219","Local":"SES - HGP - Coordenação Radiologia","Driver":"Brother DCP-L5652DN Printer"},
             {"Nome":"ISESTC0941","IP":"10.75.23.157","Local":"SES - HGP - Onco Faturamento","Driver":"Brother MFC-L9570CDW Printer"},
-            {"Nome":"ISESTC0977","IP":"10.75.23.107","Local":"SES - HGP - Recepção do Ambulatório Pediátrico","Driver":"Brother HL-L5202DW Printer"},
+            {"Nome":"ISESTC0977","IP":"10.75.23.107","Local":"SES - HGP - Recepção Ambulatório Pediátrico","Driver":"Brother HL-L5202DW Printer"},
             {"Nome":"ISESTC0978","IP":"10.75.23.212","Local":"SES - HGP - CPD Colorida","Driver":"Brother MFC-L8610CDW Printer"},
             {"Nome":"ISESTC0982","IP":"10.75.23.217","Local":"SES - HGP - Farmácia Oncologia","Driver":"Brother HL-5350DN series"},
-            {"Nome":"ISESTC0986","IP":"10.75.23.235","Local":"SES - HGP - Oncologia - Consultório 12","Driver":"Brother HL-5350DN series"},
             {"Nome":"ISESTC1005","IP":"10.75.23.190","Local":"SES - HGP - HIP Sala Verde - OBS 2","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1014","IP":"10.75.23.234","Local":"SES - HGP - Onco Consultório 11","Driver":"Brother HL-5350DN series"},
-            {"Nome":"ISESTC1015","IP":"10.75.23.243","Local":"SES - HGP - Onco Consultório 10","Driver":"Brother HL-5350DN series"},
             {"Nome":"ISESTC1030","IP":"10.75.23.248","Local":"SES - HGP - AVC UTI","Driver":"Brother MFC-J6920DW Printer"},
-            {"Nome":"ISESTC1097","IP":"10.75.23.178","Local":"SES - HGP - Imprensa","Driver":"Brother HL-4150CDN series"},
-            {"Nome":"ISESTC1107","IP":"10.75.23.201","Local":"SES - HGP - HIP Ultrassom","Driver":"Brother HL-L5202DW Printer"},
             {"Nome":"ISESTC1116","IP":"10.75.23.158","Local":"SES - HGP - Ala E/F 2º Piso","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1117","IP":"10.75.23.149","Local":"SES - HGP - Centro Cirurgico","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1118","IP":"10.75.23.166","Local":"SES - HGP - Psiquiatria 1º Piso","Driver":"Brother DCP-L5652DN Printer"},
             {"Nome":"ISESTC1119","IP":"10.75.23.171","Local":"SES - HGP - Nutrição 2º Piso","Driver":"Brother HL-L6402DW Printer"},
             {"Nome":"ISESTC1128","IP":"10.75.23.241","Local":"SES - HGP - ALA K/L","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1133","IP":"10.75.23.132","Local":"SES - HGP - Retaguarda PS","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1141","IP":"10.75.23.109","Local":"SES - HGP - Sala de medicação 1 e 2","Driver":"Brother MFC-L2700DW series"},
-            {"Nome":"ISESTC1158","IP":"10.75.23.125","Local":"SES - HGP - Hemodiálise","Driver":"Brother DCP-8080DN Printer"},
-            {"Nome":"ISESTC1159","IP":"10.75.23.126","Local":"SES - HGP - Recepção","Driver":"Brother DCP-L5652DN Printer"},
             {"Nome":"ISESTC1160","IP":"10.75.23.128","Local":"SES - HGP - UTI 1º PISO","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1161","IP":"10.75.23.117","Local":"SES - HGP - UAVC","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1162","IP":"10.75.23.118","Local":"SES - HGP - Nefrologia 4º piso","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1163","IP":"10.75.23.122","Local":"SES - HGP - RH","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1164","IP":"10.75.23.123","Local":"SES - HGP - Retaguarda","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1165","IP":"10.75.23.124","Local":"SES - HGP - Hemodialise","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1166","IP":"10.75.23.119","Local":"SES - HGP - Coordenação de enfermagem do centro cirúrgico","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1167","IP":"10.75.23.121","Local":"SES - HGP - SALA COORD. ALAC PISO 1","Driver":"Brother DCP-L5652DN Printer"},
             {"Nome":"ISESTC1168","IP":"10.75.23.127","Local":"SES - HGP - Ala G/H 3º piso","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1169","IP":"10.75.23.129","Local":"SES - HGP - Ala I/J 3º piso","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1170","IP":"10.75.23.130","Local":"SES - HGP - Ala I/J 2º piso","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1171","IP":"10.75.23.114","Local":"SES - HGP - Ala G/H 2º piso","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1172","IP":"10.75.23.115","Local":"SES - HGP - Ala E/F 4º piso","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1173","IP":"10.75.23.116","Local":"SES - HGP - Ala M/N 4º piso","Driver":"Brother DCP-L5652DN Printer"},
             {"Nome":"ISESTC1174","IP":"10.75.23.208","Local":"SES - HGP - Internação Pediátrica","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1175","IP":"10.75.23.131","Local":"SES - HGP - Hemodinamica","Driver":"Brother MFC-L9570CDW Printer"},
-            {"Nome":"ISESTC1176","IP":"10.75.23.142","Local":"SES - HGP - PS Farmácia","Driver":"Brother MFC-L5902DW Printer"},
-            {"Nome":"ISESTC1177","IP":"10.75.23.143","Local":"SES - HGP - Escriturário PS","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1178","IP":"10.75.23.144","Local":"SES - HGP - HIP Srv","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1179","IP":"10.75.23.218","Local":"SES - HGP - HIP Coord Enfermagem","Driver":"Brother MFC-J6920DW Printer"},
-            {"Nome":"ISESTC1181","IP":"10.75.23.213","Local":"SES - HGP - Pós Operatório","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1182","IP":"10.75.23.137","Local":"SES - HGP - Serviço Social","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1183","IP":"10.75.23.145","Local":"SES - HGP - Farmácia AVC UTI","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1184","IP":"10.75.23.134","Local":"SES - HGP - Sala Verde","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1185","IP":"10.75.23.135","Local":"SES - HGP - AVC Coordenação","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1187","IP":"10.75.23.136","Local":"SES - HGP - Farmácia Centro Cirurgico","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1188","IP":"10.75.23.102","Local":"SES - HGP - NUAVE 2º piso","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1189","IP":"10.75.23.104","Local":"SES - HGP - Recepção Ambulatório","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1191","IP":"10.75.23.108","Local":"SES - HGP - Coord. enfermagem. Nefro 4 piso","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1192","IP":"10.75.23.106","Local":"SES - HGP - Psicologia HIP térreo","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1193","IP":"10.75.23.100","Local":"SES - HGP - Compras 1º piso","Driver":"Brother DCP-L5652DN Printer"},
             {"Nome":"ISESTC1198","IP":"10.75.23.120","Local":"SES - HGP - Escritório da Qualidade","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1199","IP":"10.75.23.114","Local":"SES - HGP - Hemodinamica Ecocardiograma","Driver":"Brother HL-4150CDN series"},
-            {"Nome":"ISESTC1209","IP":"10.75.23.121","Local":"SES - HGP - Especialidades","Driver":"Brother HL-5350DN series"},
-            {"Nome":"ISESTC1210","IP":"10.75.23.110","Local":"SES - HGP - SAME","Driver":"RICOH Aficio MP 7502 PCL 6"},
-            {"Nome":"ISESTC1211","IP":"10.75.23.213","Local":"SES - HGP - Onco Consultório 9","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1218","IP":"10.75.23.114","Local":"SES - HGP - Ambulatório Pediátrico","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1219","IP":"10.75.23.232","Local":"SES - HGP - Onco consultório 5","Driver":"Brother DCP-L5652DN Printer"},
             {"Nome":"ISESTC1221","IP":"10.75.23.100","Local":"SES - HGP - Cuidados Paliativos 4º Piso","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1223","IP":"10.75.23.99","Local":"SES - HGP - Retaguarda","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1224","IP":"10.75.23.143","Local":"SES - HGP - Necrotério","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1228","IP":"10.75.23.181","Local":"SES - HGP - Ala G/H","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1229","IP":"10.75.23.193","Local":"SES - HGP - HIP Farmácia","Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome":"ISESTC1230","IP":"10.75.23.127","Local":"SES - HGP - Internação Pediatria","Driver":"Brother DCP-L5652DN Printer"},
             {"Nome":"ISESTC1231","IP":"10.75.23.113","Local":"SES - HGP - Nutrição Clínica","Driver":"Brother HL-16402DW Printer"}
         ];
 
@@ -227,7 +216,7 @@
             tableBody.innerHTML = '';
             data.forEach(item => {
                 const row = `<tr>
-                    <td>${item.Nome}</td>
+                    <td style="color: #fff; font-weight: bold;">${item.Nome}</td>
                     <td>${item.IP}</td>
                     <td>${item.Local}</td>
                     <td>${item.Driver}</td>
@@ -246,10 +235,8 @@
             renderTable(filteredData);
         }
 
-        // Inicializa a tabela
+        // Inicializar
         renderTable(printerData);
     </script>
-
 </body>
 </html>
-```
