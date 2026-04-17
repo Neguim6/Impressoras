@@ -49,7 +49,6 @@
             padding: 14px 18px;
             z-index: 2000;
             box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-            display: none;
             align-items: center;
             gap: 14px;
             max-width: calc(100vw - 32px);
@@ -57,11 +56,9 @@
         }
 
         #installBanner svg { flex-shrink: 0; color: var(--accent); width:28px; height:28px; }
-
         .install-text { flex: 1; }
         .install-text strong { display: block; font-size: 0.9rem; color: var(--text-primary); margin-bottom: 2px; }
         .install-text span { font-size: 0.78rem; color: var(--text-secondary); }
-
         .install-actions { display: flex; gap: 8px; flex-shrink: 0; }
 
         .btn-install {
@@ -106,9 +103,6 @@
 
         #iosTip p { margin: 0 0 6px; font-size: 0.85rem; color: var(--text-primary); }
         #iosTip small { color: var(--text-secondary); font-size: 0.78rem; line-height: 1.5; }
-        #iosTip .arrow { position:absolute; bottom:-10px; left:50%; transform:translateX(-50%); width:0; height:0;
-            border-left:10px solid transparent; border-right:10px solid transparent;
-            border-top:10px solid rgba(56,189,248,0.35); }
         #iosTip button { margin-top:12px; background:transparent; border:none; color:var(--accent); cursor:pointer; font-size:0.82rem; }
 
         /* ── HEADER ── */
@@ -141,74 +135,44 @@
             border-radius:50px; color:#fff; font-size:0.9rem; outline:none;
             transition:all .25s;
         }
-        #searchInput::placeholder { color:var(--text-secondary); }
         #searchInput:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(56,189,248,.12); }
 
-        /* ── CONTAINER ── */
         .container { max-width:1400px; margin:0 auto; padding:20px 16px 80px; }
-
         .info-bar { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; padding:0 4px; }
         .result-count { font-size:0.8rem; color:var(--text-secondary); }
         .result-count strong { color:var(--accent); }
 
-        /* ── TABLE ── */
         .table-card { background:var(--bg-panel); border-radius:14px; border:1px solid var(--border-light); overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,.4); }
         .table-wrap { overflow-x:auto; }
         table { width:100%; border-collapse:collapse; text-align:left; }
         th { background:rgba(255,255,255,.03); padding:14px 18px; font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); border-bottom:1px solid var(--border-light); white-space:nowrap; }
-        td { padding:13px 18px; border-bottom:1px solid var(--border); font-size:.875rem; color:var(--text-secondary); transition:color .15s; }
-        tr:last-child td { border-bottom:none; }
+        td { padding:13px 18px; border-bottom:1px solid var(--border); font-size:.875rem; color:var(--text-secondary); }
         tbody tr:hover { background:var(--row-hover); }
-        tbody tr:hover td { color:var(--text-primary); }
 
-        /* ── BADGES ── */
-        .ip-badge { font-family:'Courier New',monospace; font-size:.8rem; background:var(--accent-dim); color:var(--accent); padding:3px 9px; border-radius:5px; border:1px solid rgba(56,189,248,.25); white-space:nowrap; display:inline-block; }
+        .ip-badge { font-family:'Courier New',monospace; font-size:.8rem; background:var(--accent-dim); color:var(--accent); padding:3px 9px; border-radius:5px; border:1px solid rgba(56,189,248,.25); }
         .name-badge { font-weight:600; color:var(--text-primary); font-size:.85rem; }
 
-        /* ── CARDS (mobile) ── */
         .card-list { display:none; flex-direction:column; gap:10px; }
-        .printer-card { background:var(--bg-card); border:1px solid var(--border-light); border-radius:12px; padding:16px; transition:border-color .2s,box-shadow .2s; }
-        .card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; gap:10px; }
+        .printer-card { background:var(--bg-card); border:1px solid var(--border-light); border-radius:12px; padding:16px; }
+        .card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
         .card-name { font-weight:700; font-size:1rem; color:var(--text-primary); }
         .card-row { display:flex; align-items:baseline; gap:8px; margin-bottom:7px; }
-        .card-row:last-child { margin-bottom:0; }
-        .card-label { font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--text-secondary); flex-shrink:0; width:52px; }
-        .card-value { font-size:.85rem; color:var(--text-secondary); flex:1; line-height:1.4; }
+        .card-label { font-size:.68rem; font-weight:700; text-transform:uppercase; color:var(--text-secondary); width:52px; }
+        .card-value { font-size:.85rem; color:var(--text-secondary); flex:1; }
 
-        /* ── EMPTY ── */
-        .empty-state { padding:60px 20px; text-align:center; color:var(--text-secondary); }
-        .empty-state svg { width:48px; height:48px; opacity:.3; margin-bottom:14px; }
-        .empty-state p { margin:0; font-size:.95rem; }
-
-        /* ── SCROLLBAR ── */
-        ::-webkit-scrollbar { width:6px; height:6px; }
-        ::-webkit-scrollbar-track { background:var(--bg-dark); }
-        ::-webkit-scrollbar-thumb { background:var(--border-light); border-radius:10px; }
-
-        /* ── RESPONSIVE ── */
         @media (max-width: 768px) {
             :root { --header-h: 116px; }
-            .header { flex-wrap:wrap; padding:10px 16px; gap:10px; height:auto; min-height:var(--header-h); }
-            .header-logo { order:1; }
-            .search-wrap { order:3; max-width:100%; width:100%; margin:0; }
+            .header { flex-wrap:wrap; padding:10px 16px; gap:10px; }
             .table-card .table-wrap { display:none; }
             .card-list { display:flex; }
-            .container { padding:14px 12px 80px; }
-        }
-
-        @media (max-width: 480px) {
-            .header-title { display:none; }
-            :root { --header-h: 88px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Install Banner (Android/Chrome) -->
     <div id="installBanner">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
-            <path d="M6 14h12v8H6z"/>
+            <path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/>
         </svg>
         <div class="install-text">
             <strong>Instalar app</strong>
@@ -220,7 +184,6 @@
         </div>
     </div>
 
-    <!-- iOS tip -->
     <div id="iosTip">
         <p>📲 Instalar no iPhone</p>
         <small>Toque em <strong>Compartilhar</strong> (ícone ↑) no Safari<br>e depois em <strong>"Adicionar à Tela de Início"</strong></small>
@@ -230,8 +193,7 @@
     <header class="header">
         <div class="header-logo">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
-                <path d="M6 14h12v8H6z"/><circle cx="18" cy="11.5" r="0.5" fill="currentColor"/>
+                <path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/><circle cx="18" cy="11.5" r="0.5" fill="currentColor"/>
             </svg>
             <span class="header-title">SGP · <span>Impressoras HGP</span></span>
         </div>
@@ -254,16 +216,25 @@
     </main>
 
     <script>
-        // ── PWA: Service Worker ──
+        // ── SERVICE WORKER COM AUTO-REFRESH ──
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js');
+            navigator.serviceWorker.register('./sw.js').then(reg => {
+                reg.onupdatefound = () => {
+                    const installingWorker = reg.installing;
+                    installingWorker.onstatechange = () => {
+                        if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            // Nova versão detectada, recarrega para aplicar
+                            window.location.reload();
+                        }
+                    };
+                };
+            });
         }
 
-        // ── PWA: Install prompt (Android/Chrome) ──
+        // ── LÓGICA DE INSTALAÇÃO ──
         let deferredPrompt;
         const banner = document.getElementById('installBanner');
         const btnInstall = document.getElementById('btnInstall');
-        const btnDismiss = document.getElementById('btnDismiss');
 
         window.addEventListener('beforeinstallprompt', e => {
             e.preventDefault();
@@ -273,30 +244,17 @@
 
         btnInstall.addEventListener('click', async () => {
             banner.style.display = 'none';
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            deferredPrompt = null;
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt = null;
+            }
         });
 
-        btnDismiss.addEventListener('click', () => {
+        document.getElementById('btnDismiss').addEventListener('click', () => {
             banner.style.display = 'none';
         });
 
-        window.addEventListener('appinstalled', () => {
-            banner.style.display = 'none';
-        });
-
-        // ── PWA: iOS tip ──
-        const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
-        const isInStandalone = window.navigator.standalone;
-        if (isIos && !isInStandalone && !localStorage.getItem('ios-tip-dismissed')) {
-            setTimeout(() => {
-                document.getElementById('iosTip').style.display = 'block';
-                localStorage.setItem('ios-tip-dismissed', '1');
-            }, 2000);
-        }
-
-        // ── DATA ──
+        // ── DADOS ──
         const printerData = [
             {"Nome da Impressora":"ISESTC0081","Comentários":"10.75.23.138","Local":"SES - HGP - Hemocentro Ambulatório","Nome do Driver":"Brother DCP-L5652DN Printer"},
             {"Nome da Impressora":"ISESTC0087","Comentários":"10.75.23.249","Local":"SES - HGP - Jurídico","Nome do Driver":"Brother DCP-L5652DN Printer"},
@@ -412,104 +370,66 @@
             {"Nome da Impressora":"ISESTC1173","Comentários":"10.75.23.111","Local":"SES - HGP - Internação Pediátrica","Nome do Driver":"Brother DCP-L5652DN Printer"},
             {"Nome da Impressora":"ISESTC1174","Comentários":"10.75.23.208","Local":"SES - HGP - Hemodinamica","Nome do Driver":"Brother MFC-L5802DW Printer"},
             {"Nome da Impressora":"ISESTC1175","Comentários":"10.75.23.246","Local":"SES - HGP - PS Farmácia","Nome do Driver":"Brother MFC-L5802DW Printer"},
-            {"Nome da Impressora":"ISESTC1176","Comentários":"10.75.23.128","Local":"SES - HGP - Escriturário PS","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1177","Comentários":"10.75.23.232","Local":"SES - HGP - HIP Savi","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1178","Comentários":"10.75.23.144","Local":"SES - HGP - HIP Coord Enfermagem 1º Piso","Nome do Driver":"Brother MFC-L5902DW Printer"},
-            {"Nome da Impressora":"ISESTC1179","Comentários":"10.75.23.217","Local":"SES - HGP - Pos Operatório","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1180","Comentários":"10.75.23.136","Local":"SES - HGP - Serviço Social","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1181","Comentários":"10.75.23.157","Local":"SES - HGP - Farmacia AVC UTI","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1182","Comentários":"10.75.23.134","Local":"SES - HGP - Sala Verde","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1183","Comentários":"10.75.23.198","Local":"SES - HGP - AVC Coordenação","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1184","Comentários":"10.75.23.110","Local":"SES - HGP - Farmacia Centro Cirurgico","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1185","Comentários":"10.75.23.107","Local":"SES - HGP - NUAVE 2º piso","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1186","Comentários":"10.75.23.171","Local":"SES - HGP - Recepção Ambulatório","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1187","Comentários":"10.75.23.109","Local":"SES - HGP - Coord.Enfermagem. Nefro 4 piso","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1188","Comentários":"10.75.23.108","Local":"SES - HGP - Psicologia HIP térreo","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1189","Comentários":"10.75.23.104","Local":"SES - HGP - Compras 1° piso","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1190","Comentários":"10.75.23.106","Local":"SES - HGP - Escritório da Qualidade","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1192","Comentários":"10.75.23.160","Local":"SES - HGP - Hemodinamica Ecocardiogram","Nome do Driver":"Brother HL-4150CDN series"},
-            {"Nome da Impressora":"ISESTC1245","Comentários":"10.75.23.131","Local":"SES - HGP - Especialidades","Nome do Driver":"Brother HL-5350DN series"},
-            {"Nome da Impressora":"ISESTC1209","Comentários":"10.75.23.103","Local":"SES - HGP - SAME","Nome do Driver":"RICOH Aficio MP 7502 PCL 6"},
-            {"Nome da Impressora":"ISESTC1210","Comentários":"10.75.23.213","Local":"SES - HGP - Onco Consultorio 9","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1211","Comentários":"10.75.23.244","Local":"SES - HGP - Ambulatório Pediátrico","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1217","Comentários":"10.75.23.102","Local":"SES - HGP - Onco consultório 5","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1221","Comentários":"10.75.23.199","Local":"SES - HGP - Cuidados Paliativos 4° Piso","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1223","Comentários":"10.75.23.99","Local":"SES - HGP - Retaguarda","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1224","Comentários":"10.75.23.143","Local":"SES - HGP - Necrotério","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1225","Comentários":"10.75.23.181","Local":"SES - HGP - Ala GH","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1226","Comentários":"10.75.23.195","Local":"SES - HGP - HIP Farmácia","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1227","Comentários":"10.75.23.127","Local":"SES - HGP - Internação Pediatra","Nome do Driver":"Brother DCP-L5652DN Printer"},
-            {"Nome da Impressora":"ISESTC1231","Comentários":"10.75.23.100","Local":"SES - HGP - Nutrição Clínica","Nome do Driver":"Brother HL-L6402DW Printer"}
+            {"Nome da Impressora":"ISESTC1176","Comentários":"10.75.23.128","Local":"SES - HGP - Escriturário PS","Nome do Driver":"Brother DCP-L5652DN Printer"}
         ];
 
-        const tableWrap   = document.getElementById('tableWrap');
-        const cardList    = document.getElementById('cardList');
-        const countEl     = document.getElementById('resultCount');
+        // ── LÓGICA DE RENDERIZAÇÃO ──
         const searchInput = document.getElementById('searchInput');
+        const tableWrap = document.getElementById('tableWrap');
+        const cardList = document.getElementById('cardList');
+        const resultCount = document.getElementById('resultCount');
 
-        function stripPrefix(local) {
-            return local.replace(/^SES - HGP - /i, '');
-        }
+        function render(filter = '') {
+            const term = filter.toLowerCase();
+            const filtered = printerData.filter(p => 
+                p["Nome da Impressora"].toLowerCase().includes(term) ||
+                p["Comentários"].toLowerCase().includes(term) ||
+                p["Local"].toLowerCase().includes(term) ||
+                p["Nome do Driver"].toLowerCase().includes(term)
+            );
 
-        function renderTable(data) {
-            countEl.innerHTML = `<strong>${data.length}</strong> de ${printerData.length} impressoras`;
+            resultCount.innerHTML = `Exibindo <strong>${filtered.length}</strong> impressoras`;
 
-            const empty = `<div class="empty-state">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                </svg>
-                <p>Nenhum resultado encontrado.</p>
-            </div>`;
-
-            if (data.length === 0) {
-                tableWrap.innerHTML = empty;
-                cardList.innerHTML = empty;
-                return;
-            }
-
-            let tbl = `<table><thead><tr>
-                <th>Nome</th><th>IP</th><th>Local</th><th>Driver</th>
+            // Desktop Table
+            let tableHtml = `<table><thead><tr>
+                <th>Nome</th><th>Endereço IP</th><th>Localização</th><th>Driver</th>
             </tr></thead><tbody>`;
-            data.forEach(item => {
-                tbl += `<tr>
-                    <td><span class="name-badge">${item["Nome da Impressora"]}</span></td>
-                    <td><span class="ip-badge">${item["Comentários"]}</span></td>
-                    <td>${item["Local"]}</td>
-                    <td>${item["Nome do Driver"]}</td>
-                </tr>`;
-            });
-            tbl += `</tbody></table>`;
-            tableWrap.innerHTML = tbl;
+            
+            // Mobile Cards
+            let cardsHtml = '';
 
-            let cards = '';
-            data.forEach(item => {
-                cards += `<div class="printer-card">
+            filtered.forEach(p => {
+                tableHtml += `<tr>
+                    <td><span class="name-badge">${p["Nome da Impressora"]}</span></td>
+                    <td><span class="ip-badge">${p["Comentários"]}</span></td>
+                    <td>${p["Local"]}</td>
+                    <td style="font-size:0.75rem; opacity:0.8">${p["Nome do Driver"]}</td>
+                </tr>`;
+
+                cardsHtml += `
+                <div class="printer-card">
                     <div class="card-header">
-                        <span class="card-name">${item["Nome da Impressora"]}</span>
-                        <span class="ip-badge">${item["Comentários"]}</span>
+                        <span class="card-name">${p["Nome da Impressora"]}</span>
+                        <span class="ip-badge">${p["Comentários"]}</span>
                     </div>
                     <div class="card-row">
                         <span class="card-label">Local</span>
-                        <span class="card-value">${stripPrefix(item["Local"])}</span>
+                        <span class="card-value">${p["Local"]}</span>
                     </div>
                     <div class="card-row">
                         <span class="card-label">Driver</span>
-                        <span class="card-value">${item["Nome do Driver"]}</span>
+                        <span class="card-value" style="font-size:0.75rem">${p["Nome do Driver"]}</span>
                     </div>
                 </div>`;
             });
-            cardList.innerHTML = cards;
+
+            tableHtml += '</tbody></table>';
+            tableWrap.innerHTML = filtered.length ? tableHtml : '<div class="empty-state"><p>Nenhuma impressora encontrada.</p></div>';
+            cardList.innerHTML = filtered.length ? cardsHtml : '<div class="empty-state"><p>Nenhuma impressora encontrada.</p></div>';
         }
 
-        searchInput.addEventListener('input', e => {
-            const term = e.target.value.toLowerCase();
-            const filtered = printerData.filter(item =>
-                Object.values(item).some(v => String(v).toLowerCase().includes(term))
-            );
-            renderTable(filtered);
-        });
-
-        renderTable(printerData);
+        searchInput.addEventListener('input', e => render(e.target.value));
+        render(); // Initial load
     </script>
 </body>
 </html>
