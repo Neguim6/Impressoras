@@ -1,4 +1,4 @@
-const CACHE = 'impressoras-hgp-v9'; 
+const CACHE = 'impressoras-hgp-v10'; 
 const ASSETS = [
   './',
   './index.html',
