@@ -790,6 +790,20 @@ const defaultData = [
 // Carrega os dados modificados do LocalStorage ou inicia com os dados acima caso esteja vazio
 let printerData = JSON.parse(localStorage.getItem('hgp_printers_v2')) || defaultData;
 
+// Definição da senha global de acesso para manipulações
+const MASTER_PASSWORD = "258456";
+
+function checkAccess() {
+    const password = prompt("Digite a senha de autorização para prosseguir:");
+    if (password === null) return false; // Clicou em cancelar
+    if (password === MASTER_PASSWORD) {
+        return true;
+    } else {
+        alert("Senha incorreta. Acesso negado.");
+        return false;
+    }
+}
+
 function saveToStorage() {
     localStorage.setItem('hgp_printers_v2', JSON.stringify(printerData));
 }
@@ -878,6 +892,8 @@ function filterTable() {
 /* ── REGRAS DE ADICIONAR / EDITAR E REMOVER ── */
 
 function openCrudPanel() {
+    if (!checkAccess()) return; // Validação de segurança por senha
+    
     document.getElementById('panelTitle').innerText = "Nova Impressora";
     document.getElementById('editIndex').value = "";
     document.getElementById('formNome').value = "";
@@ -893,6 +909,8 @@ function closeCrudPanel() {
 }
 
 function editPrinter(index) {
+    if (!checkAccess()) return; // Validação de segurança por senha
+
     const printer = printerData[index];
     document.getElementById('panelTitle').innerText = "Editar Impressora";
     document.getElementById('editIndex').value = index;
@@ -936,6 +954,8 @@ function savePrinter() {
 }
 
 function deletePrinter(index) {
+    if (!checkAccess()) return; // Validação de segurança por senha
+
     if (confirm(`Remover definitivamente a impressora ${printerData[index].Nome}?`)) {
         printerData.splice(index, 1);
         saveToStorage();
