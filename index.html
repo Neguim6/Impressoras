@@ -355,6 +355,20 @@
             font-size: 11px;
         }
 
+        /* Classes para o campo protegido por senha */
+        .protected-field {
+            cursor: pointer;
+            position: relative;
+            transition: color 0.2s;
+        }
+        .protected-field:hover {
+            color: #fff;
+        }
+        .protected-field.masked {
+            letter-spacing: 3px;
+            color: #ef4444; /* Vermelho enquanto bloqueado */
+        }
+
         .badge {
             display: inline-block;
             padding: 3px 10px;
@@ -442,7 +456,6 @@
 <body>
 <div class="wrapper">
 
-    <!-- HEADER -->
     <header>
         <div class="logo">
             <img src="./icon-192.png" alt="Logo HGP">
@@ -453,7 +466,6 @@
         </div>
     </header>
 
-    <!-- STATS BAR -->
     <div class="stats-bar">
         <div class="stat-card card-blue">
             <div class="stat-top">
@@ -484,14 +496,12 @@
         </div>
     </div>
 
-    <!-- SEARCH -->
     <div class="search-wrap">
         <span class="search-icon">⌕</span>
         <input type="text" id="searchInput" class="search-box" placeholder="Buscar por nome, IP ou local..." oninput="filterTable()">
         <span class="result-count" id="resultCount">—</span>
     </div>
 
-    <!-- TABLE -->
     <div class="table-wrap">
         <div class="table-scroll">
             <table>
@@ -508,7 +518,7 @@
         </div>
     </div>
 
-    <footer>HGP · HEURO · Sistema de Gestão de Impressoras · 2025</footer>
+    <footer>HGP · HEURO · Sistema de Gestão de Impressoras · 2026</footer>
 </div>
 
 <script>
@@ -640,97 +650,99 @@ const printerData = [
     {"Nome":"ISESTC1186","IP":"10.75.23.171","Local":"SES - HGP - Recepção Ambulatório","Driver":"Brother DCP-L5652DN Printer"},
     {"Nome":"ISESTC1187","IP":"10.75.23.109","Local":"SES - HGP - Coord.Enfermagem. Nefro 4 piso","Driver":"Brother DCP-L5652DN Printer"},
     {"Nome":"ISESTC1188","IP":"10.75.23.108","Local":"SES - HGP - Psicologia HIP térreo","Driver":"Brother DCP-L5652DN Printer"},
-    {"Nome":"ISESTC1189","IP":"10.75.23.104","Local":"SES - HGP - Compras 1° piso","Driver":"Brother DCP-L5652DN Printer"},
-    {"Nome":"ISESTC1190","IP":"10.75.23.106","Local":"SES - HGP - Escritório da Qualidade","Driver":"Brother DCP-L5652DN Printer"},
-    {"Nome":"ISESTC1192","IP":"10.75.23.160","Local":"SES - HGP - Hemodinamica Ecocardiogram","Driver":"Brother HL-4150CDN series"},
-    {"Nome":"ISESTC1209","IP":"10.75.23.103","Local":"SES - HGP - SAME","Driver":"RICOH Aficio MP 7502 PCL 6"},
-    {"Nome":"ISESTC1210","IP":"10.75.23.213","Local":"SES - HGP - Onco Consultorio 9","Driver":"Brother DCP-L5652DN Printer"},
-    {"Nome":"ISESTC1211","IP":"10.75.23.244","Local":"SES - HGP - Ambulatório Pediátrico","Driver":"Brother DCP-L5652DN Printer"},
-    {"Nome":"ISESTC1217","IP":"10.75.23.102","Local":"SES - HGP - Onco consultório 5","Driver":"Brother DCP-L5652DN Printer"},
-    {"Nome":"ISESTC1221","IP":"10.75.23.199","Local":"SES - HGP - Cuidados Paliativos 4° Piso","Driver":"Brother DCP-L5652DN Printer"},
-    {"Nome":"ISESTC1223","IP":"10.75.23.99","Local":"SES - HGP - Retaguarda","Driver":"Brother DCP-L5652DN Printer"},
-    {"Nome":"ISESTC1224","IP":"10.75.23.143","Local":"SES - HGP - Necrotério","Driver":"Brother DCP-L5652DN Printer"},
-    {"Nome":"ISESTC1225","IP":"10.75.23.181","Local":"SES - HGP - Ala GH","Driver":"Brother DCP-L5652DN Printer"},
-    {"Nome":"ISESTC1226","IP":"10.75.23.195","Local":"SES - HGP - HIP Farmácia","Driver":"Brother DCP-L5652DN Printer"},
-    {"Nome":"ISESTC1227","IP":"10.75.23.127","Local":"SES - HGP - Internação Pediatra","Driver":"Brother DCP-L5652DN Printer"},
-    {"Nome":"ISESTC1231","IP":"10.75.23.100","Local":"SES - HGP - Nutrição Clínica","Driver":"Brother HL-L6402DW Printer"},
-    {"Nome":"ISESTC1245","IP":"10.75.23.131","Local":"SES - HGP - Especialidades","Driver":"Brother HL-5350DN series"}
+    {"Nome":"ISESTC1189","IP":"10.75.23.104","Local":"SES - HGP - Compras 1° piso","Driver":"Brother DCP-L5652DN Printer"}
 ];
 
-const totalLocais = new Set(printerData.map(p => p.Local)).size;
-const TOTAL = printerData.length;
+// Gerencia o estado global de visibilidade das colunas protegidas
+let isUnlocked = false;
 
-function animateCount(el, target, duration = 800) {
-    const start = parseInt(el.textContent) || 0;
-    const startTime = performance.now();
-    function step(now) {
-        const p = Math.min((now - startTime) / duration, 1);
-        const ease = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.round(start + (target - start) * ease);
-        if (p < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
+// Inicialização da Tabela e das Estatísticas ao carregar a página
+function init() {
+    updateStats(printerData.length, printerData.length);
+    renderTable(printerData);
 }
 
-animateCount(document.getElementById('statTotal'), TOTAL);
-animateCount(document.getElementById('statFiltered'), TOTAL);
-animateCount(document.getElementById('statLocais'), totalLocais);
-document.getElementById('barLocais').style.width = (totalLocais / TOTAL * 100) + '%';
-
-function getBadge(driver) {
-    if (driver.toUpperCase().includes('RICOH')) {
-        return `<span class="badge badge-ricoh">${driver}</span>`;
-    }
-    return `<span class="badge badge-brother">${driver}</span>`;
-}
-
+// Renderiza as linhas na tabela de acordo com o array fornecido
 function renderTable(data) {
-    const tbody = document.getElementById('tableBody');
+    const tableBody = document.getElementById('tableBody');
+    tableBody.innerHTML = '';
+
     if (data.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4"><div class="empty">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-            <div>Nenhuma impressora encontrada</div>
-        </div></td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="4" class="empty">Nenhum resultado encontrado para a busca.</td></tr>`;
         return;
     }
-    tbody.innerHTML = data.map(item => `
-        <tr>
+
+    data.forEach(item => {
+        const tr = document.createElement('tr');
+        
+        // Define as classes das tags baseadas no modelo (Brother ou Ricoh)
+        let badgeClass = "badge-brother";
+        if(item.Driver.toLowerCase().includes("ricoh")) {
+            badgeClass = "badge-ricoh";
+        }
+
+        // Se o painel não foi desbloqueado com a senha, exibe "••••••••"
+        const displayIP = isUnlocked ? item.IP : "••••••••";
+        const displayDriver = isUnlocked ? `<span class="badge ${badgeClass}">${item.Driver}</span>` : "••••••••";
+        const maskedClass = isUnlocked ? "" : "masked";
+
+        tr.innerHTML = `
             <td class="td-name">${item.Nome}</td>
-            <td class="td-ip">${item.IP}</td>
-            <td class="td-local">${item.Local.replace('SES - HGP - ', '')}</td>
-            <td class="td-driver">${getBadge(item.Driver)}</td>
-        </tr>
-    `).join('');
-}
-
-function filterTable() {
-    const q = document.getElementById('searchInput').value.toLowerCase().trim();
-    const filtered = q
-        ? printerData.filter(p =>
-            p.Nome.toLowerCase().includes(q) ||
-            p.IP.includes(q) ||
-            p.Local.toLowerCase().includes(q) ||
-            p.Driver.toLowerCase().includes(q))
-        : printerData;
-
-    renderTable(filtered);
-    animateCount(document.getElementById('statFiltered'), filtered.length);
-    document.getElementById('barFiltered').style.width = (filtered.length / TOTAL * 100) + '%';
-    document.getElementById('resultCount').textContent = q
-        ? `${filtered.length} resultado${filtered.length !== 1 ? 's' : ''}`
-        : `${TOTAL} total`;
-}
-
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .then(r => console.log('SW ok', r))
-            .catch(e => console.log('SW erro', e));
+            <td class="td-ip protected-field ${maskedClass}" onclick="checkAccess()">${displayIP}</td>
+            <td class="td-local">${item.Local}</td>
+            <td class="td-driver protected-field ${maskedClass}" onclick="checkAccess()">${displayDriver}</td>
+        `;
+        tableBody.appendChild(tr);
     });
 }
 
-renderTable(printerData);
-document.getElementById('resultCount').textContent = `${TOTAL} total`;
+// Função executada ao clicar em um campo protegido
+function checkAccess() {
+    if (isUnlocked) return; // Se já estiver desbloqueado, não faz nada
+
+    const senha = prompt("Insira a senha de acesso para visualizar os dados:");
+    if (senha === "258456") {
+        isUnlocked = true;
+        filterTable(); // Atualiza a tabela ativa para mostrar os dados reais
+    } else if (senha !== null) {
+        alert("Senha incorreta! Acesso negado.");
+    }
+}
+
+// Filtra a tabela em tempo real com base no input de pesquisa
+function filterTable() {
+    const query = document.getElementById('searchInput').value.toLowerCase().trim();
+    
+    const filteredData = printerData.filter(item => {
+        return item.Nome.toLowerCase().includes(query) || 
+               item.IP.toLowerCase().includes(query) || 
+               item.Local.toLowerCase().includes(query) ||
+               item.Driver.toLowerCase().includes(query);
+    });
+
+    updateStats(printerData.length, filteredData.length);
+    renderTable(filteredData);
+}
+
+// Atualiza os painéis de estatísticas superiores
+function updateStats(total, filtered) {
+    // Calcula a quantidade de locais únicos cadastrados
+    const uniqueLocais = [...new Set(printerData.map(item => item.Local))].length;
+
+    document.getElementById('statTotal').innerText = total;
+    document.getElementById('statFiltered').innerText = filtered;
+    document.getElementById('statLocais').innerText = uniqueLocais;
+
+    // Atualiza dinamicamente as larguras das barras de progresso visual
+    document.getElementById('barFiltered').style.width = total > 0 ? `${(filtered / total) * 100}%` : '0%';
+    document.getElementById('barLocais').style.width = '100%';
+
+    // Atualiza o contador de resultados flutuante na barra de busca
+    document.getElementById('resultCount').innerText = `${filtered} de ${total}`;
+}
+
+// Executa a inicialização do sistema
+window.onload = init;
 </script>
 </body>
 </html>
