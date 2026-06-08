@@ -128,7 +128,7 @@
             margin-top: 4px;
         }
 
-        /* ── BUTTONS ── */
+        /* ── BOTÕES DE GERENCIAMENTO ── */
         .btn {
             background: var(--surface2);
             border: 1px solid var(--border-bright);
@@ -163,7 +163,7 @@
             white-space: nowrap;
         }
 
-        /* ── MANAGEMENT PANEL (FORM) ── */
+        /* ── PAINEL DE CADASTRO / EDIÇÃO (FORMULÁRIO) ── */
         .crud-panel {
             background: var(--surface);
             border: 1px solid var(--accent);
@@ -171,7 +171,7 @@
             padding: 20px;
             margin-bottom: 24px;
             animation: fadeDown 0.4s ease both;
-            display: none; /* Controlled via JS */
+            display: none;
         }
 
         .crud-panel h3 {
@@ -629,7 +629,7 @@
                         <th>IP</th>
                         <th>Local</th>
                         <th>Driver / Modelo</th>
-                        <th style="width: 130px;">Ações</th>
+                        <th style="width: 140px;">Ações</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
@@ -641,7 +641,7 @@
 </div>
 
 <script>
-// Banco de dados em memória inicial (Lista original de 127 impressoras fornecida por você)
+// Lista de dados original nativa estruturada
 const defaultData = [
     {"Nome":"ISESTC0081","IP":"10.75.23.138","Local":"SES - HGP - Hemocentro Ambulatório","Driver":"Brother DCP-L5652DN Printer"},
     {"Nome":"ISESTC0087","IP":"10.75.23.249","Local":"SES - HGP - Jurídico","Driver":"Brother DCP-L5652DN Printer"},
@@ -787,14 +787,14 @@ const defaultData = [
     {"Nome":"ISESTC1245","IP":"10.75.23.131","Local":"SES - HGP - Especialidades","Driver":"Brother HL-5350DN series"}
 ];
 
-// Tenta puxar do LocalStorage, senão usa a base original de dados fixa
-let printerData = JSON.parse(localStorage.getItem('hgp_printers')) || defaultData;
+// Carrega os dados modificados do LocalStorage ou inicia com os dados acima caso esteja vazio
+let printerData = JSON.parse(localStorage.getItem('hgp_printers_v2')) || defaultData;
 
 function saveToStorage() {
-    localStorage.setItem('hgp_printers', JSON.stringify(printerData));
+    localStorage.setItem('hgp_printers_v2', JSON.stringify(printerData));
 }
 
-function animateCount(el, target, duration = 800) {
+function animateCount(el, target, duration = 600) {
     const start = parseInt(el.textContent) || 0;
     const startTime = performance.now();
     function step(now) {
@@ -826,7 +826,6 @@ function getBadge(driver) {
     return `<span class="badge badge-brother">${driver}</span>`;
 }
 
-// Renderiza a tabela mapeando também a chave index estrutural original dos dados ativos
 function renderTable(data) {
     const tbody = document.getElementById('tableBody');
     if (data.length === 0) {
@@ -838,7 +837,7 @@ function renderTable(data) {
     }
 
     tbody.innerHTML = data.map(item => {
-        // Encontra o index real no array global de dados
+        // Encontra o index posicional imutável baseado no array global de dados salvos
         const realIndex = printerData.findIndex(p => p.Nome === item.Nome && p.IP === item.IP);
         
         return `
@@ -876,7 +875,7 @@ function filterTable() {
         : `${printerData.length} total`;
 }
 
-/* ── FUNÇÕES GERENCIAIS (CRUD) ── */
+/* ── REGRAS DE ADICIONAR / EDITAR E REMOVER ── */
 
 function openCrudPanel() {
     document.getElementById('panelTitle').innerText = "Nova Impressora";
@@ -914,11 +913,11 @@ function savePrinter() {
     const driver = document.getElementById('formDriver').value.trim();
 
     if (!nome || !ip || !local || !driver) {
-        alert("Preencha todos os campos do formulário para salvar.");
+        alert("Preencha todos os campos antes de salvar o dispositivo.");
         return;
     }
 
-    // Normalização padrão do prefixo do HGP caso o usuário não digite
+    // Mantém a padronização visual da localização interna
     if (!local.toUpperCase().startsWith("SES - HGP - ")) {
         local = "SES - HGP - " + local;
     }
@@ -926,36 +925,37 @@ function savePrinter() {
     const printerObj = { Nome: nome, IP: ip, Local: local, Driver: driver };
 
     if (index === "") {
-        // Novo Registro
-        printerData.unshift(printerObj); // Adiciona no início da lista para ver o resultado rápido
+        printerData.unshift(printerObj); // Insere no topo
     } else {
-        // Atualizando Registro Existente
         printerData[parseInt(index)] = printerObj;
     }
 
     saveToStorage();
     closeCrudPanel();
-    filterTable(); // Recarrega aplicando regras do campo de busca ativo
+    filterTable();
 }
 
 function deletePrinter(index) {
-    if (confirm(`Tem certeza que deseja remover a impressora ${printerData[index].Nome}?`)) {
+    if (confirm(`Remover definitivamente a impressora ${printerData[index].Nome}?`)) {
         printerData.splice(index, 1);
         saveToStorage();
         filterTable();
     }
 }
 
-// Inicializadores da Aplicação
+// Controle de atualização forçada contra caches persistidos do PWA (Service Worker)
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .then(r => console.log('SW ok', r))
-            .catch(e => console.log('SW erro', e));
+        navigator.serviceWorker.register('./sw.js?v=2')
+            .then(reg => {
+                console.log('SW ativo');
+                // Força atualização se houver uma nova estrutura rodando
+                reg.update();
+            }).catch(e => console.log('Erro SW', e));
     });
 }
 
-// Inicializa a tabela principal e contadores
+// Execução Inicial Direta
 renderTable(printerData);
 updateCards();
 document.getElementById('resultCount').textContent = `${printerData.length} total`;
