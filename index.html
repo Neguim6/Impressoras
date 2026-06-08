@@ -26,6 +26,7 @@
             --accent: #38bdf8;
             --accent2: #818cf8;
             --accent3: #34d399;
+            --danger: #ef4444;
             --text: #e2e8f0;
             --muted: #64748b;
             --dim: #1e3a5f;
@@ -41,7 +42,6 @@
             overflow-x: hidden;
         }
 
-        /* Animated background grid */
         body::before {
             content: '';
             position: fixed;
@@ -84,9 +84,16 @@
         header {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 16px;
             margin-bottom: 32px;
             animation: fadeDown 0.6s ease both;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
         @keyframes fadeDown {
@@ -119,6 +126,101 @@
             color: var(--muted);
             letter-spacing: 0.08em;
             margin-top: 4px;
+        }
+
+        /* ── BUTTONS ── */
+        .btn {
+            background: var(--surface2);
+            border: 1px solid var(--border-bright);
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-family: 'Syne', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: var(--dim);
+            border-color: var(--accent);
+            box-shadow: 0 0 12px rgba(56,189,248,0.2);
+        }
+
+        .btn-primary { background: var(--dim); border-color: var(--accent); color: var(--accent); }
+        .btn-danger { background: rgba(239, 68, 68, 0.1); border-color: var(--danger); color: var(--danger); }
+        .btn-danger:hover { background: var(--danger); color: #fff; }
+        
+        .btn-sm { padding: 4px 8px; font-size: 10px; border-radius: 6px; }
+
+        .actions-cell {
+            display: flex;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        /* ── MANAGEMENT PANEL (FORM) ── */
+        .crud-panel {
+            background: var(--surface);
+            border: 1px solid var(--accent);
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 24px;
+            animation: fadeDown 0.4s ease both;
+            display: none; /* Controlled via JS */
+        }
+
+        .crud-panel h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+            color: var(--accent);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-grid label {
+            font-size: 10px;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+
+        .form-grid input {
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-grid input:focus { border-color: var(--accent); }
+
+        .form-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
         }
 
         /* ── STATS BAR ── */
@@ -355,20 +457,6 @@
             font-size: 11px;
         }
 
-        /* Classes para o campo protegido por senha */
-        .protected-field {
-            cursor: pointer;
-            position: relative;
-            transition: color 0.2s;
-        }
-        .protected-field:hover {
-            color: #fff;
-        }
-        .protected-field.masked {
-            letter-spacing: 3px;
-            color: #ef4444; /* Vermelho enquanto bloqueado */
-        }
-
         .badge {
             display: inline-block;
             padding: 3px 10px;
@@ -392,7 +480,6 @@
             color: #fb923c;
         }
 
-        /* empty state */
         .empty {
             text-align: center;
             padding: 60px 20px;
@@ -401,7 +488,6 @@
 
         .empty svg { margin-bottom: 12px; opacity: 0.3; }
 
-        /* ── FOOTER ── */
         footer {
             text-align: center;
             margin-top: 28px;
@@ -411,7 +497,6 @@
             opacity: 0.6;
         }
 
-        /* Pulse dot */
         .pulse-dot {
             display: inline-block;
             width: 7px;
@@ -437,6 +522,8 @@
         }
 
         @media (max-width: 640px) {
+            header { flex-direction: column; align-items: flex-start; gap: 14px; }
+            .btn { width: 100%; justify-content: center; }
             .stats-bar { grid-template-columns: repeat(3, 1fr); gap: 8px; }
             .stat-card { padding: 12px 10px; gap: 6px; border-radius: 14px; }
             .stat-value { font-size: 28px; letter-spacing: -1px; }
@@ -444,12 +531,13 @@
             .stat-desc { font-size: 9px; }
 
             .table-scroll { overflow-x: auto; }
-            table { table-layout: auto; min-width: 600px; }
+            table { table-layout: auto; min-width: 750px; }
             thead th, td { padding: 10px 8px; font-size: 11px; }
             .td-name { font-size: 11px; }
             .td-ip   { font-size: 11px; }
             .td-local { font-size: 11px; }
             .badge   { font-size: 10px; padding: 2px 6px; white-space: nowrap; }
+            .actions-cell { flex-direction: column; gap: 4px; }
         }
     </style>
 </head>
@@ -457,14 +545,44 @@
 <div class="wrapper">
 
     <header>
-        <div class="logo">
-            <img src="./icon-192.png" alt="Logo HGP">
+        <div class="header-left">
+            <div class="logo">
+                <img src="./icon-192.png" alt="Logo HGP">
+            </div>
+            <div class="header-text">
+                <h1>Impressoras HGP</h1>
+                <p><span class="pulse-dot"></span>INVENTÁRIO ATIVO · SES TOCANTINS</p>
+            </div>
         </div>
-        <div class="header-text">
-            <h1>Impressoras HGP</h1>
-            <p><span class="pulse-dot"></span>INVENTÁRIO ATIVO · SES TOCANTINS</p>
-        </div>
+        <button class="btn btn-primary" onclick="openCrudPanel()">+ Add Impressora</button>
     </header>
+
+    <div class="crud-panel" id="crudPanel">
+        <h3 id="panelTitle">Nova Impressora</h3>
+        <input type="hidden" id="editIndex">
+        <div class="form-grid">
+            <div class="input-group">
+                <label for="formNome">Nome / Hostname</label>
+                <input type="text" id="formNome" placeholder="Ex: ISESTC0081">
+            </div>
+            <div class="input-group">
+                <label for="formIP">Endereço IP</label>
+                <input type="text" id="formIP" placeholder="Ex: 10.75.23.138">
+            </div>
+            <div class="input-group">
+                <label for="formLocal">Setor / Localização</label>
+                <input type="text" id="formLocal" placeholder="Ex: Faturamento SIA">
+            </div>
+            <div class="input-group">
+                <label for="formDriver">Modelo do Driver</label>
+                <input type="text" id="formDriver" placeholder="Ex: Brother DCP-L5652DN">
+            </div>
+        </div>
+        <div class="form-buttons">
+            <button class="btn" onclick="closeCrudPanel()">Cancelar</button>
+            <button class="btn btn-primary" onclick="savePrinter()">Salvar Registro</button>
+        </div>
+    </div>
 
     <div class="stats-bar">
         <div class="stat-card card-blue">
@@ -511,6 +629,7 @@
                         <th>IP</th>
                         <th>Local</th>
                         <th>Driver / Modelo</th>
+                        <th style="width: 130px;">Ações</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
@@ -522,7 +641,8 @@
 </div>
 
 <script>
-const printerData = [
+// Banco de dados em memória inicial (Lista original de 127 impressoras fornecida por você)
+const defaultData = [
     {"Nome":"ISESTC0081","IP":"10.75.23.138","Local":"SES - HGP - Hemocentro Ambulatório","Driver":"Brother DCP-L5652DN Printer"},
     {"Nome":"ISESTC0087","IP":"10.75.23.249","Local":"SES - HGP - Jurídico","Driver":"Brother DCP-L5652DN Printer"},
     {"Nome":"ISESTC0096","IP":"10.75.23.197","Local":"SES - HGP - Faturamento SIA","Driver":"Brother HL-L5202DW Printer"},
@@ -650,99 +770,195 @@ const printerData = [
     {"Nome":"ISESTC1186","IP":"10.75.23.171","Local":"SES - HGP - Recepção Ambulatório","Driver":"Brother DCP-L5652DN Printer"},
     {"Nome":"ISESTC1187","IP":"10.75.23.109","Local":"SES - HGP - Coord.Enfermagem. Nefro 4 piso","Driver":"Brother DCP-L5652DN Printer"},
     {"Nome":"ISESTC1188","IP":"10.75.23.108","Local":"SES - HGP - Psicologia HIP térreo","Driver":"Brother DCP-L5652DN Printer"},
-    {"Nome":"ISESTC1189","IP":"10.75.23.104","Local":"SES - HGP - Compras 1° piso","Driver":"Brother DCP-L5652DN Printer"}
+    {"Nome":"ISESTC1189","IP":"10.75.23.104","Local":"SES - HGP - Compras 1° piso","Driver":"Brother DCP-L5652DN Printer"},
+    {"Nome":"ISESTC1190","IP":"10.75.23.106","Local":"SES - HGP - Escritório da Qualidade","Driver":"Brother DCP-L5652DN Printer"},
+    {"Nome":"ISESTC1192","IP":"10.75.23.160","Local":"SES - HGP - Hemodinamica Ecocardiogram","Driver":"Brother HL-4150CDN series"},
+    {"Nome":"ISESTC1209","IP":"10.75.23.103","Local":"SES - HGP - SAME","Driver":"RICOH Aficio MP 7502 PCL 6"},
+    {"Nome":"ISESTC1210","IP":"10.75.23.213","Local":"SES - HGP - Onco Consultorio 9","Driver":"Brother DCP-L5652DN Printer"},
+    {"Nome":"ISESTC1211","IP":"10.75.23.244","Local":"SES - HGP - Ambulatório Pediátrico","Driver":"Brother DCP-L5652DN Printer"},
+    {"Nome":"ISESTC1217","IP":"10.75.23.102","Local":"SES - HGP - Onco consultório 5","Driver":"Brother DCP-L5652DN Printer"},
+    {"Nome":"ISESTC1221","IP":"10.75.23.199","Local":"SES - HGP - Cuidados Paliativos 4° Piso","Driver":"Brother DCP-L5652DN Printer"},
+    {"Nome":"ISESTC1223","IP":"10.75.23.99","Local":"SES - HGP - Retaguarda","Driver":"Brother DCP-L5652DN Printer"},
+    {"Nome":"ISESTC1224","IP":"10.75.23.143","Local":"SES - HGP - Necrotério","Driver":"Brother DCP-L5652DN Printer"},
+    {"Nome":"ISESTC1225","IP":"10.75.23.181","Local":"SES - HGP - Ala GH","Driver":"Brother DCP-L5652DN Printer"},
+    {"Nome":"ISESTC1226","IP":"10.75.23.195","Local":"SES - HGP - HIP Farmácia","Driver":"Brother DCP-L5652DN Printer"},
+    {"Nome":"ISESTC1227","IP":"10.75.23.127","Local":"SES - HGP - Internação Pediatra","Driver":"Brother DCP-L5652DN Printer"},
+    {"Nome":"ISESTC1231","IP":"10.75.23.100","Local":"SES - HGP - Nutrição Clínica","Driver":"Brother HL-L6402DW Printer"},
+    {"Nome":"ISESTC1245","IP":"10.75.23.131","Local":"SES - HGP - Especialidades","Driver":"Brother HL-5350DN series"}
 ];
 
-// Gerencia o estado global de visibilidade das colunas protegidas
-let isUnlocked = false;
+// Tenta puxar do LocalStorage, senão usa a base original de dados fixa
+let printerData = JSON.parse(localStorage.getItem('hgp_printers')) || defaultData;
 
-// Inicialização da Tabela e das Estatísticas ao carregar a página
-function init() {
-    updateStats(printerData.length, printerData.length);
-    renderTable(printerData);
+function saveToStorage() {
+    localStorage.setItem('hgp_printers', JSON.stringify(printerData));
 }
 
-// Renderiza as linhas na tabela de acordo com o array fornecido
-function renderTable(data) {
-    const tableBody = document.getElementById('tableBody');
-    tableBody.innerHTML = '';
+function animateCount(el, target, duration = 800) {
+    const start = parseInt(el.textContent) || 0;
+    const startTime = performance.now();
+    function step(now) {
+        const p = Math.min((now - startTime) / duration, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(start + (target - start) * ease);
+        if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+}
 
+function updateCards(filteredLength = printerData.length) {
+    const total = printerData.length;
+    const totalLocais = new Set(printerData.map(p => p.Local)).size;
+
+    animateCount(document.getElementById('statTotal'), total);
+    animateCount(document.getElementById('statFiltered'), filteredLength);
+    animateCount(document.getElementById('statLocais'), totalLocais);
+
+    document.getElementById('barTotal').style.width = '100%';
+    document.getElementById('barFiltered').style.width = total > 0 ? (filteredLength / total * 100) + '%' : '0%';
+    document.getElementById('barLocais').style.width = total > 0 ? (totalLocais / total * 100) + '%' : '0%';
+}
+
+function getBadge(driver) {
+    if (driver.toUpperCase().includes('RICOH')) {
+        return `<span class="badge badge-ricoh">${driver}</span>`;
+    }
+    return `<span class="badge badge-brother">${driver}</span>`;
+}
+
+// Renderiza a tabela mapeando também a chave index estrutural original dos dados ativos
+function renderTable(data) {
+    const tbody = document.getElementById('tableBody');
     if (data.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="4" class="empty">Nenhum resultado encontrado para a busca.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5"><div class="empty">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <div>Nenhuma impressora encontrada</div>
+        </div></td></tr>`;
         return;
     }
 
-    data.forEach(item => {
-        const tr = document.createElement('tr');
+    tbody.innerHTML = data.map(item => {
+        // Encontra o index real no array global de dados
+        const realIndex = printerData.findIndex(p => p.Nome === item.Nome && p.IP === item.IP);
         
-        // Define as classes das tags baseadas no modelo (Brother ou Ricoh)
-        let badgeClass = "badge-brother";
-        if(item.Driver.toLowerCase().includes("ricoh")) {
-            badgeClass = "badge-ricoh";
-        }
-
-        // Se o painel não foi desbloqueado com a senha, exibe "••••••••"
-        const displayIP = isUnlocked ? item.IP : "••••••••";
-        const displayDriver = isUnlocked ? `<span class="badge ${badgeClass}">${item.Driver}</span>` : "••••••••";
-        const maskedClass = isUnlocked ? "" : "masked";
-
-        tr.innerHTML = `
-            <td class="td-name">${item.Nome}</td>
-            <td class="td-ip protected-field ${maskedClass}" onclick="checkAccess()">${displayIP}</td>
-            <td class="td-local">${item.Local}</td>
-            <td class="td-driver protected-field ${maskedClass}" onclick="checkAccess()">${displayDriver}</td>
+        return `
+            <tr>
+                <td class="td-name">${item.Nome}</td>
+                <td class="td-ip">${item.IP}</td>
+                <td class="td-local">${item.Local.replace('SES - HGP - ', '')}</td>
+                <td class="td-driver">${getBadge(item.Driver)}</td>
+                <td>
+                    <div class="actions-cell">
+                        <button class="btn btn-sm" onclick="editPrinter(${realIndex})">Editar</button>
+                        <button class="btn btn-sm btn-danger" onclick="deletePrinter(${realIndex})">Excluir</button>
+                    </div>
+                </td>
+            </tr>
         `;
-        tableBody.appendChild(tr);
-    });
+    }).join('');
 }
 
-// Função executada ao clicar em um campo protegido
-function checkAccess() {
-    if (isUnlocked) return; // Se já estiver desbloqueado, não faz nada
+function filterTable() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    const filtered = q
+        ? printerData.filter(p =>
+            p.Nome.toLowerCase().includes(q) ||
+            p.IP.includes(q) ||
+            p.Local.toLowerCase().includes(q) ||
+            p.Driver.toLowerCase().includes(q))
+        : printerData;
 
-    const senha = prompt("Insira a senha de acesso para visualizar os dados:");
-    if (senha === "258456") {
-        isUnlocked = true;
-        filterTable(); // Atualiza a tabela ativa para mostrar os dados reais
-    } else if (senha !== null) {
-        alert("Senha incorreta! Acesso negado.");
+    renderTable(filtered);
+    updateCards(filtered.length);
+
+    document.getElementById('resultCount').textContent = q
+        ? `${filtered.length} resultado${filtered.length !== 1 ? 's' : ''}`
+        : `${printerData.length} total`;
+}
+
+/* ── FUNÇÕES GERENCIAIS (CRUD) ── */
+
+function openCrudPanel() {
+    document.getElementById('panelTitle').innerText = "Nova Impressora";
+    document.getElementById('editIndex').value = "";
+    document.getElementById('formNome').value = "";
+    document.getElementById('formIP').value = "";
+    document.getElementById('formLocal').value = "";
+    document.getElementById('formDriver').value = "";
+    document.getElementById('crudPanel').style.display = "block";
+    document.getElementById('formNome').focus();
+}
+
+function closeCrudPanel() {
+    document.getElementById('crudPanel').style.display = "none";
+}
+
+function editPrinter(index) {
+    const printer = printerData[index];
+    document.getElementById('panelTitle').innerText = "Editar Impressora";
+    document.getElementById('editIndex').value = index;
+    document.getElementById('formNome').value = printer.Nome;
+    document.getElementById('formIP').value = printer.IP;
+    document.getElementById('formLocal').value = printer.Local;
+    document.getElementById('formDriver').value = printer.Driver;
+    
+    document.getElementById('crudPanel').style.display = "block";
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function savePrinter() {
+    const index = document.getElementById('editIndex').value;
+    const nome = document.getElementById('formNome').value.trim();
+    const ip = document.getElementById('formIP').value.trim();
+    let local = document.getElementById('formLocal').value.trim();
+    const driver = document.getElementById('formDriver').value.trim();
+
+    if (!nome || !ip || !local || !driver) {
+        alert("Preencha todos os campos do formulário para salvar.");
+        return;
+    }
+
+    // Normalização padrão do prefixo do HGP caso o usuário não digite
+    if (!local.toUpperCase().startsWith("SES - HGP - ")) {
+        local = "SES - HGP - " + local;
+    }
+
+    const printerObj = { Nome: nome, IP: ip, Local: local, Driver: driver };
+
+    if (index === "") {
+        // Novo Registro
+        printerData.unshift(printerObj); // Adiciona no início da lista para ver o resultado rápido
+    } else {
+        // Atualizando Registro Existente
+        printerData[parseInt(index)] = printerObj;
+    }
+
+    saveToStorage();
+    closeCrudPanel();
+    filterTable(); // Recarrega aplicando regras do campo de busca ativo
+}
+
+function deletePrinter(index) {
+    if (confirm(`Tem certeza que deseja remover a impressora ${printerData[index].Nome}?`)) {
+        printerData.splice(index, 1);
+        saveToStorage();
+        filterTable();
     }
 }
 
-// Filtra a tabela em tempo real com base no input de pesquisa
-function filterTable() {
-    const query = document.getElementById('searchInput').value.toLowerCase().trim();
-    
-    const filteredData = printerData.filter(item => {
-        return item.Nome.toLowerCase().includes(query) || 
-               item.IP.toLowerCase().includes(query) || 
-               item.Local.toLowerCase().includes(query) ||
-               item.Driver.toLowerCase().includes(query);
+// Inicializadores da Aplicação
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(r => console.log('SW ok', r))
+            .catch(e => console.log('SW erro', e));
     });
-
-    updateStats(printerData.length, filteredData.length);
-    renderTable(filteredData);
 }
 
-// Atualiza os painéis de estatísticas superiores
-function updateStats(total, filtered) {
-    // Calcula a quantidade de locais únicos cadastrados
-    const uniqueLocais = [...new Set(printerData.map(item => item.Local))].length;
-
-    document.getElementById('statTotal').innerText = total;
-    document.getElementById('statFiltered').innerText = filtered;
-    document.getElementById('statLocais').innerText = uniqueLocais;
-
-    // Atualiza dinamicamente as larguras das barras de progresso visual
-    document.getElementById('barFiltered').style.width = total > 0 ? `${(filtered / total) * 100}%` : '0%';
-    document.getElementById('barLocais').style.width = '100%';
-
-    // Atualiza o contador de resultados flutuante na barra de busca
-    document.getElementById('resultCount').innerText = `${filtered} de ${total}`;
-}
-
-// Executa a inicialização do sistema
-window.onload = init;
+// Inicializa a tabela principal e contadores
+renderTable(printerData);
+updateCards();
+document.getElementById('resultCount').textContent = `${printerData.length} total`;
 </script>
 </body>
 </html>
